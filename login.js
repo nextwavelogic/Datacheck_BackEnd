@@ -143,7 +143,15 @@ app.post('/create-project', async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
-
+app.use('/projects', async (req, res) => {
+  const { userId } = req.query;
+  try {
+    const projects = await Project.find({ userId: userId });
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

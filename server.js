@@ -23,11 +23,11 @@ db.once('open', () => {
 });
 
 // Routes
-const projectRoutes = require('./routes/projects');
-const userRoutes = require('./routes/users');
+const projectRoutes = require('./routes/project');
 
-app.use('/projects', projectRoutes);
-app.use('/users', userRoutes);
+
+app.use('/project', projectRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

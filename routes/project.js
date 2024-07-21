@@ -1,11 +1,20 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-const Project = require('../models/Project');
+const Project = require('../model/project');
 
 // Create a new project
 router.post('/create', async (req, res) => {
   const { name, description, totalCost, startDate, endDate, deadlineHours, userId } = req.body;
-  const newProject = new Project({ name, description, totalCost, startDate, endDate, deadlineHours, userId });
+  const newProject = new Project({ 
+    name, 
+    description, 
+    totalCost, 
+    startDate, 
+    endDate, 
+    deadlineHours, 
+  userId 
+  });
   try {
     const savedProject = await newProject.save();
     res.status(201).send(savedProject);
@@ -13,16 +22,15 @@ router.post('/create', async (req, res) => {
     res.status(500).send(error);
   }
 });
-
-// Get projects for a user
-router.get('/user/:userId', async (req, res) => {
-  const userId = req.params.userId;
+router.get('/projects', async (req, res) => {
+  const { userId } = req.query;
   try {
-    const projects = await Project.find({ userId });
-    res.send({ projects });
+    const projects = await Project.find({ userId }); // Directly use userId as string
+    res.status(200).send(projects);
   } catch (error) {
     res.status(500).send(error);
   }
 });
+
 
 module.exports = router;

@@ -7,7 +7,7 @@ const projectSchema = new mongoose.Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   deadlineHours: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: String, ref: 'User', required: true },
 });
 
 module.exports = mongoose.model('Project', projectSchema);
