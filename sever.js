@@ -1,7 +1,7 @@
-// Import necessary modules
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 
 // Initialize the Express app
 const app = express();
@@ -31,12 +31,22 @@ app.post('/add-organization', async (req, res) => {
   try {
     const { organizationName, phoneNumber, email, password } = req.body;
 
-    // Create a new organization
+    // Check if the email already exists
+    const existingOrganization = await Organization.findOne({ email });
+    if (existingOrganization) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+
+    // Hash the password before saving
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create a new organization with the hashed password
     const newOrganization = new Organization({
       organizationName,
       phoneNumber,
       email,
-      password
+      password: hashedPassword
     });
 
     // Save the organization to the database

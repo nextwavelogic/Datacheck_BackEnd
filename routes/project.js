@@ -5,7 +5,7 @@ const Project = require('../model/project');
 
 // Create a new project
 router.post('/create', async (req, res) => {
-  const { name, description, totalCost, startDate, endDate, deadlineHours, userId } = req.body;
+  const { name, description, totalCost, startDate, endDate, deadlineHours, userId,contractor_name, contractor_phonenumber,contractor_expertise} = req.body;
   const newProject = new Project({ 
     name, 
     description, 
@@ -13,7 +13,10 @@ router.post('/create', async (req, res) => {
     startDate, 
     endDate, 
     deadlineHours, 
-  userId 
+  userId,
+  contractor_name,
+  contractor_phonenumber,
+  contractor_expertise,
   });
   try {
     const savedProject = await newProject.save();
